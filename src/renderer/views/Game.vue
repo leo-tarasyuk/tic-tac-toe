@@ -5,6 +5,7 @@
         <div
           v-for="(item, index) in squares"
           :key="index"
+          :ref="`square${index}`"
           class="square"
           @click="event => clickHandler(event, index)"
         >
@@ -25,7 +26,15 @@
             <p>0</p>
           </div>
         </div>
-        <BackButton />
+        <div class="app-buttons">
+          <Button
+            v-if="!game"
+            name="New game"
+            color="green"
+            :method="newGame"
+          />
+          <BackButton />
+        </div>
       </div>
     </div>
   </div>
@@ -33,12 +42,14 @@
 
 <script>
 import BackButton from '@/components/General/BackButton.vue'
+import Button from '../components/General/Button.vue'
 
 export default {
   name: 'Game',
 
   components: {
-    BackButton
+    BackButton,
+    Button
   },
 
   data () {
@@ -64,24 +75,36 @@ export default {
       if (this.game) {
         let symbol = (this.count % 2 === 0) ? 'X' : 'O'
 
-        if (this.squares[index] == null) {
+        if (this.squares[index] === null) {
           this.squares[index] = symbol
           event.target.innerHTML = symbol
           this.count += 1
         }
 
-        for (let i = 0; i < this.winLine.length - 1; i++) {
-          let line = this.winLine[i]
+        this.win(symbol)
+        this.draw()
+      }
+    },
 
-          if (
-            this.squares[line[0]] === symbol &&
-            this.squares[line[1]] === symbol &&
-            this.squares[line[2]] === symbol
-          ) {
-            alert('Winner is ' + symbol)
-            this.game = false
-          }
+    win (symbol) {
+      for (let i = 0; i < this.winLine.length; i++) {
+        let line = this.winLine[i]
+
+        if (
+          this.squares[line[0]] === symbol &&
+          this.squares[line[1]] === symbol &&
+          this.squares[line[2]] === symbol
+        ) {
+          alert('Winner is ' + symbol)
+          this.game = false
         }
+      }
+    },
+
+    draw () {
+      if (this.squares.every(elem => elem != null) && this.game) {
+        alert('This is a draw :D')
+        this.game = false
       }
     }
   }
@@ -141,11 +164,12 @@ export default {
       height: 100%;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: space-between;
       padding: 20px;
 
       .score-players {
-        width: 100%;
+        width: 100px;
         display: flex;
         justify-content: space-between;
 
@@ -156,6 +180,14 @@ export default {
           align-items: center;
           justify-content: space-between;
         }
+      }
+
+      .app-buttons {
+        height: 120px;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+        align-items: center;
       }
     }
   }
