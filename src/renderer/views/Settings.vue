@@ -54,7 +54,7 @@ export default {
   //     .then(response => (this.characters = response.data.results))
   // },
 
-  mounted () {
+  created () {
     this.getCharacters()
   },
 
