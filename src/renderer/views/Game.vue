@@ -5,7 +5,7 @@
         <div
           v-for="(item, index) in squares"
           :key="index"
-          :ref="`square${index}`"
+          ref="square"
           class="square"
           @click="event => clickHandler(event, index)"
         >
@@ -106,6 +106,17 @@ export default {
         alert('This is a draw :D')
         this.game = false
       }
+    },
+
+    newGame () {
+      this.squares = Array(9).fill(null)
+      this.count = 0
+      this.$refs.square.map(item => {
+        item.innerHTML = ''
+
+        return item
+      })
+      this.game = true
     }
   }
 }
