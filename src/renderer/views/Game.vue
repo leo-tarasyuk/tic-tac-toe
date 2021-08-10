@@ -29,11 +29,17 @@
         <div class="app-buttons">
           <Button
             v-if="!game"
+            class="margin-top"
             name="New game"
             color="green"
             :method="newGame"
           />
-          <BackButton />
+          <Button
+            class="margin-top"
+            name="Clear score"
+            color="blue"
+          />
+          <BackButton class="margin-top" />
         </div>
       </div>
     </div>
@@ -42,7 +48,7 @@
 
 <script>
 import BackButton from '@/components/General/BackButton.vue'
-import Button from '../components/General/Button.vue'
+import Button from '@/components/General/Button.vue'
 
 export default {
   name: 'Game',
@@ -87,18 +93,16 @@ export default {
     },
 
     win (symbol) {
-      for (let i = 0; i < this.winLine.length; i++) {
-        let line = this.winLine[i]
-
+      this.winLine.forEach(item => {
         if (
-          this.squares[line[0]] === symbol &&
-          this.squares[line[1]] === symbol &&
-          this.squares[line[2]] === symbol
+          this.squares[item[0]] === symbol &&
+          this.squares[item[1]] === symbol &&
+          this.squares[item[2]] === symbol
         ) {
           alert('Winner is ' + symbol)
           this.game = false
         }
-      }
+      })
     },
 
     draw () {
@@ -129,19 +133,18 @@ export default {
   width: 100%;
   height: 563px;
   display: flex;
-  border-bottom: 1p solid $color-black-1;
 
   .game-content {
     width: 100%;
-    border: 1px solid $color-black-1;
+    border: 2px solid $color-black-1;
 
     .tic-tac-toe {
       width: 300px;
       height: 300px;
-      border: 2px solid $color-black-1;
-      margin: 50px auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      border: 2px solid $color-black-1;
+      margin: 100px auto;
 
       .square {
         width: 99px;
@@ -158,15 +161,15 @@ export default {
 
   .score {
     width: 300px;
-    border: 2px solid $color-black-1;
-    border-left: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 2px solid $color-black-1;
+    border-left: 0;
+    border-collapse: collapse;
 
     .score__title {
       width: 100%;
-      height: 50px;
       text-align: center;
       border-bottom: 2px solid $color-black-1;
     }
@@ -194,11 +197,13 @@ export default {
       }
 
       .app-buttons {
-        height: 120px;
         display: flex;
-        flex-direction: column-reverse;
-        justify-content: space-between;
+        flex-direction: column;
         align-items: center;
+
+        .margin-top {
+          margin-top: 10px;
+        }
       }
     }
   }
