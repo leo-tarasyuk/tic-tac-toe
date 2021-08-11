@@ -15,11 +15,11 @@ const mutations = {
 }
 
 const actions = {
-  async getCharacters ({ commit }) {
+  async getAll ({ commit }) {
     return axios.get('https://rickandmortyapi.com/api/character')
-      .then((response) => {
-        commit('setCharacters', response.results)
-        return Promise.resolve(response.results)
+      .then(response => {
+        commit('setCharacters', response.data.results)
+        return Promise.resolve(response.data.results)
       })
       .catch((error) => Promise.reject(error))
   }

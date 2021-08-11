@@ -19,6 +19,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'
+import { mapActions } from 'vuex'
 
 import Button from '@/components/General/Button.vue'
 
@@ -29,7 +30,15 @@ export default {
     Button
   },
 
+  created () {
+    this.getAllCharacters()
+  },
+
   methods: {
+    ...mapActions({
+      getAllCharacters: 'characters/getAll'
+    }),
+
     closeApp () {
       ipcRenderer.send('close-app')
     },
@@ -57,10 +66,15 @@ main {
     font-size: 40px;
     font-weight: bold;
     padding-bottom: 20px;
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
   }
 
   .router-buttons {
-    padding-top: 20px;
+    padding: 20px;
   }
 }
 </style>

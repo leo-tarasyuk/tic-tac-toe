@@ -1,20 +1,97 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
-import '../renderer/store'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import store from '../renderer/store'
+
+const path = require('path')
+const fs = require('fs')
+const os = require('os')
+
+const pathDownload = path.join(os.homedir(), '/Downloads') // For Ubuntu
 
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = path.join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
+const template = [
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Download',
+        click: () => {
+          if (store.getters['characters/characters']) {
+            fs.writeFile(path.join(pathDownload, 'characters.txt'), JSON.stringify(store.getters['characters/characters']))
+          }
+        },
+        accelerator: 'CmdOrCtrl + D'
+      },
+      { type: 'separator' },
+      { role: 'quit' }
+    ]
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      { role: 'delete' },
+      { type: 'separator' },
+      { role: 'selectAll' }
+    ]
+  },
+  {
+    label: 'View',
+    submenu: [
+      { role: 'reload' },
+      { role: 'forceReload' },
+      { role: 'toggleDevTools' },
+      { type: 'separator' },
+      { role: 'resetZoom' },
+      { role: 'zoomIn' },
+      { role: 'zoomOut' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' }
+    ]
+  },
+  {
+    label: 'Window',
+    submenu: [
+      { role: 'minimize' },
+      { role: 'close' }
+    ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Learn More',
+        click: async () => {
+          const { shell } = require('electron')
+          await shell.openExternal('https://electronjs.org')
+        }
+      }
+    ]
+  }
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
+
 let window
 let characters
 
 function createWindow () {
+  BrowserWindow.addDevToolsExtension('node_modules/vue-devtools/vender')
+
   window = new BrowserWindow({
     width: 1000,
     height: 563,
