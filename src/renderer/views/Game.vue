@@ -160,7 +160,7 @@ export default {
   }
 
   .score {
-    width: 300px;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -180,7 +180,7 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 20px;
+      padding: 20px 0;
 
       .score-players {
         width: 100px;

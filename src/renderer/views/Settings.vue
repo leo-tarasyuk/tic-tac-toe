@@ -34,8 +34,7 @@
 
 <script>
 import { ipcRenderer } from 'electron'
-import { mapGetters, mapActions } from 'vuex'
-// import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 import Button from '@/components/General/Button.vue'
 import BackButton from '@/components/General/BackButton.vue'
@@ -48,22 +47,6 @@ export default {
     BackButton
   },
 
-  // mounted () {
-  //   axios
-  //     .get('https://rickandmortyapi.com/api/character')
-  //     .then(response => (this.characters = response.data.results))
-  // },
-
-  created () {
-    this.getCharacters()
-  },
-
-  // data () {
-  //   return {
-  //     characters: []
-  //   }
-  // },
-
   computed: {
     ...mapGetters({
       characters: 'characters/characters'
@@ -71,10 +54,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      getCharacters: 'characters/getCharacters'
-    }),
-
     goToGamePage () {
       this.$router.push('/game')
     },
