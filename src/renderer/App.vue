@@ -5,9 +5,19 @@
 </template>
 
 <script>
-  export default {
-    name: 'electron'
+import { ipcRenderer } from 'electron'
+
+export default {
+  name: 'electron',
+
+  mounted () {
+    ipcRenderer.on('navigate', (event, routePath) => {
+      if (this.$router.currentRoute.path !== routePath) {
+        this.$router.push(routePath)
+      }
+    })
   }
+}
 </script>
 
 <style lang="scss">

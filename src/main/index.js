@@ -65,3 +65,14 @@ ipcMain.on('change-character', (event, arg) => {
   characters.show()
   characters.webContents.send('characters', arg)
 })
+
+export default function navigate (routePath) {
+  if (window.webContents && !characters.webContents) {
+    window.webContents.send('navigate', routePath)
+  }
+
+  if (characters.webContents) {
+    window.webContents.send('navigate', routePath)
+    characters.hide()
+  }
+}
