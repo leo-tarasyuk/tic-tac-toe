@@ -20,5 +20,5 @@ require('electron-debug')({ showDevTools: true })
 //     })
 // })
 
-// // Require `main` process to boot app
-// require('./index')
+// Require `main` process to boot app
+require('./index')
