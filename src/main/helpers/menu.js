@@ -1,6 +1,8 @@
 import { Menu, shell } from 'electron'
 import store from '../../renderer/store'
 
+import navigate from '../index'
+
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
@@ -65,6 +67,29 @@ const template = [
     submenu: [
       { role: 'minimize' },
       { role: 'close' }
+    ]
+  },
+  {
+    label: 'Navigation',
+    submenu: [
+      {
+        label: 'Main',
+        click: () => {
+          navigate('/')
+        }
+      },
+      {
+        label: 'Settings',
+        click: () => {
+          navigate('/settings')
+        }
+      },
+      {
+        label: 'Game',
+        click: () => {
+          navigate('/game')
+        }
+      }
     ]
   },
   {
