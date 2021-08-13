@@ -28,6 +28,11 @@ export default new Router({
       path: '/characters',
       name: 'Characters',
       component: require('../views/Characters').default
+    },
+    {
+      path: '/filter',
+      name: 'FilterCharacter',
+      component: require('../views/FilterCharacter').default
     }
   ]
 })

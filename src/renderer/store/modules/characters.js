@@ -9,14 +9,12 @@ const file = path.join(pathDownload, 'characters.json')
 
 const state = () => ({
   characters: [],
-  playerOne: {},
-  playerTwo: {}
+  filterCharacters: []
 })
 
 const getters = {
   characters: state => state.characters,
-  playerOne: state => state.playerOne,
-  playerTwo: state => state.playerTwo
+  filterCharacters: state => state.filterCharacters
 }
 
 const mutations = {
@@ -24,12 +22,8 @@ const mutations = {
     state.characters = payload
   },
 
-  setPlayerOne (state, payload) {
-    state.playerOne = payload
-  },
-
-  setPlayerTwo (state, payload) {
-    state.playerTwo = payload
+  setFilterCharacters (state, payload) {
+    state.filterCharacters = payload
   }
 }
 
@@ -44,8 +38,6 @@ const actions = {
 
         if (currentDate - date < oneHour) {
           commit('setCharacters', allCharacters.charactersData)
-          commit('setPlayerOne', allCharacters.charactersData[0])
-          commit('setPlayerTwo', allCharacters.charactersData[0])
         } else {
           dispatch('getAllFromApi')
         }
@@ -61,8 +53,24 @@ const actions = {
       .get('https://rickandmortyapi.com/api/character')
       .then(response => {
         commit('setCharacters', response.data.results)
-        commit('setPlayerOne', response.data.results[0])
-        commit('setPlayerTwo', response.data.results[0])
+
+        return Promise.resolve(response.data.results)
+      })
+      .catch((error) => Promise.reject(error))
+  },
+
+  async getFilterCharacters ({ commit }, payload) {
+    let api = 'https://rickandmortyapi.com/api/character/?'
+
+    if (payload.name) api += `&name=${payload.name}`
+    if (payload.status) api += `&status=${payload.status}`
+    if (payload.gender) api += `&gender=${payload.gender}`
+
+    return axios
+      .get(api)
+      .then(response => {
+        commit('setFilterCharacters', response.data.results)
+
         return Promise.resolve(response.data.results)
       })
       .catch((error) => Promise.reject(error))

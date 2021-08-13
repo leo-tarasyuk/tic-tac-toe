@@ -89,6 +89,13 @@ const template = [
         click: () => {
           navigate('/game')
         }
+      },
+      { type: 'separator' },
+      {
+        label: 'Filter',
+        click: () => {
+          navigate('/filter')
+        }
       }
     ]
   },
