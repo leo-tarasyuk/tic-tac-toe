@@ -56,7 +56,7 @@ const actions = {
 
         return Promise.resolve(response.data.results)
       })
-      .catch((error) => Promise.reject(error))
+      .catch(error => Promise.reject(error))
   },
 
   async getFilterCharacters ({ commit }, payload) {
@@ -73,7 +73,10 @@ const actions = {
 
         return Promise.resolve(response.data.results)
       })
-      .catch((error) => Promise.reject(error))
+      .catch(error => {
+        commit('setFilterCharacters', [])
+        Promise.reject(error)
+      })
   }
 }
 

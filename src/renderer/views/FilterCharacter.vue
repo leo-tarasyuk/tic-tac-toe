@@ -254,6 +254,10 @@ export default {
   .character {
     list-style: none;
     padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     img {
       width: 200px;
@@ -262,6 +266,7 @@ export default {
 
     p {
       text-align: center;
+      padding-top: 20px;
     }
   }
 }
