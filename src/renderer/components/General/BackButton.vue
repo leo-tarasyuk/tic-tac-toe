@@ -21,7 +21,7 @@ button {
   font-size: 18px;
   cursor: pointer;
   outline: none;
-  padding: 10px 30px;
+  padding: 5px 20px;
   border-radius: 30px;
   transition: all 0.15s ease;
   color: $color-white-1;

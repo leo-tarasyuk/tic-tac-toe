@@ -4,6 +4,7 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import './helpers/menu'
 
 const path = require('path')
+const debug = require('electron-debug')
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
@@ -17,6 +18,7 @@ if (process.env.NODE_ENV !== 'development') {
 
 function createWindow () {
   if (process.env.NODE_ENV === 'development') {
+    debug({ showDevTools: true })
     BrowserWindow.addDevToolsExtension('node_modules/vue-devtools/vender')
   }
 
